@@ -45,10 +45,11 @@ jobs:
         cd Entware
         mkdir -p package/sing-box-go
         cp -r $GITHUB_WORKSPACE/sing-box-go package/sing-box-go/
+        cp $GITHUB_WORKSPACE/.config Entware/.config
     - name: Build sing-box package
       run: |
         cd Entware
-        make menuconfig # Тут потребуется выбрать sing-box-go из меню
+        make defconfig 
         make package/sing-box-go/compile V=s
 
     - name: Upload artifact
