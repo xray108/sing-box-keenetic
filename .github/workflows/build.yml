@@ -40,12 +40,12 @@ jobs:
         cd Entware
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-
+    - name: Copy sing-box package 
+      run: | 
+        cp -r sing-box-keenetic/sing-box-go ../Entware/package/
     - name: Build sing-box package
       run: |
-        cd sing-box-keenetic
-        cp -r sing-box-go/ ../Entware/package/
-        cd ../Entware
+        cd Entware
         make menuconfig # Тут потребуется выбрать sing-box-go из меню
         make package/sing-box-go/compile V=s
 
