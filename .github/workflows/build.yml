@@ -1,4 +1,3 @@
-# .github/workflows/build.yml
 name: Build sing-box-go
 
 on:
@@ -31,7 +30,8 @@ jobs:
       run: |
         git clone https://github.com/Entware/Entware.git /opt/Entware
         cd /opt/Entware
-        sudo ./install.sh
+        sudo ./scripts/feeds update -a
+        sudo ./scripts/feeds install -a
 
     - name: Set environment variables
       run: |
