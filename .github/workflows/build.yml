@@ -19,10 +19,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Go
-      uses: actions/setup-go@v3
+      uses: actions/setup-go@v5
       with:
         go-version: ${{ matrix.go-version }}
       
@@ -50,7 +50,7 @@ jobs:
         make package/sing-box-go/compile V=s
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: sing-box-package
         path: bin/packages/mipsel_24kc/sing-box-go*.ipk
