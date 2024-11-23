@@ -55,7 +55,7 @@ jobs:
         run: |
           cd entware
           mkdir -p package/sing-box-go
-          cp -r $GITHUB_WORKSPACE/* package/sing-box-go/
+          rsync -av --exclude='package/sing-box-go' $GITHUB_WORKSPACE/ package/sing-box-go/
           ./scripts/feeds install -a
 
       # Шаг 7: Настройка конфигурации для сборки
