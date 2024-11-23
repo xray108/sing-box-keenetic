@@ -45,7 +45,7 @@ jobs:
         cd Entware
         mkdir -p package/sing-box-go
         cp -r $GITHUB_WORKSPACE/sing-box-go package/sing-box-go/
-        cp $GITHUB_WORKSPACE/.config Entware/.config
+        cp sing-box-keenetic/.config Entware/.config
     - name: Build sing-box package
       run: |
         cd Entware
