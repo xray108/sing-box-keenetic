@@ -45,7 +45,9 @@ jobs:
         cd Entware
         mkdir -p package/sing-box-go
         cp -r $GITHUB_WORKSPACE/sing-box-go package/sing-box-go/
-        cp sing-box-keenetic/.config Entware/.config
+        echo "CONFIG_TARGET_mipsel=y" > Entware/.config
+        echo "CONFIG_TARGET_mipsel_24kc=y" >> Entware/.config
+        echo "CONFIG_PACKAGE_sing-box-go=y" >> Entware/.config
     - name: Build sing-box package
       run: |
         cd Entware
