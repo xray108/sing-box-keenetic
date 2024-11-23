@@ -1,0 +1,50 @@
+name: Build sing-box-go
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.21.0'
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential git
+
+    - name: Clone Entware repository
+      run: |
+        git clone https://github.com/Entware/Entware.git /opt/Entware
+        cd /opt/Entware
+        sudo ./install.sh
+
+    - name: Set environment variables
+      run: |
+        echo "PATH=/opt/Entware/bin:$PATH" >> $GITHUB_ENV
+        echo "GOPATH=/go" >> $GITHUB_ENV
+        echo "PATH=$GOPATH/bin:$PATH" >> $GITHUB_ENV
+
+    - name: Build sing-box-go
+      run: |
+        cd ${{ github.workspace }}
+        make
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: sing-box-go
+        path: ${{ github.workspace }}/sing-box-go
