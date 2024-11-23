@@ -32,7 +32,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential gcc-mipsel-linux-gnu
+        sudo apt-get install -y build-essential gcc-mipsel-linux-gnu python2.7
 
     - name: Prepare Entware environment
       run: |
