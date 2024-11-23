@@ -1,3 +1,4 @@
+# .github/workflows/build.yml
 name: Build sing-box-go
 
 on:
@@ -39,13 +40,20 @@ jobs:
         echo "GOPATH=/go" >> $GITHUB_ENV
         echo "PATH=$GOPATH/bin:$PATH" >> $GITHUB_ENV
 
+    - name: Verify Makefile exists
+      run: |
+        if [ ! -f ${{ github.workspace }}/sing-box-go/Makefile ]; then
+          echo "Makefile not found!"
+          exit 1
+        fi
+
     - name: Build sing-box-go
       run: |
-        cd ${{ github.workspace }}
+        cd ${{ github.workspace }}/sing-box-go
         make
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
         name: sing-box-go
-        path: ${{ github.workspace }}/sing-box-go
+        path: ${{ github.workspace }}/sing-box-go/sing-box-go
