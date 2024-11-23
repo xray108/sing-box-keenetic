@@ -18,7 +18,7 @@ jobs:
         target_arch:
           - mipsel
         go_version:
-          - '1.19'
+          - '1.21.0'
     
     steps:
       # Шаг 1: Проверка репозитория
