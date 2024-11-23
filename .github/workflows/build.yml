@@ -42,7 +42,9 @@ jobs:
         ./scripts/feeds install -a
     - name: Copy sing-box package 
       run: | 
-        cp -r sing-box-keenetic/sing-box-go ../Entware/package/
+        cd Entware
+        mkdir -p package/sing-box-go
+        cp -r $GITHUB_WORKSPACE/sing-box-go package/sing-box-go/
     - name: Build sing-box package
       run: |
         cd Entware
