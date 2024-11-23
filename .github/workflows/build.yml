@@ -1,5 +1,4 @@
-# .github/workflows/build.yml
-name: Build sing-box-go
+name: Build sing-box package for Entware
 
 on:
   push:
@@ -13,47 +12,45 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        go-version: [1.22]
+        target-arch: [mipsel]
+
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Set up Go
-      uses: actions/setup-go@v4
+      uses: actions/setup-go@v3
       with:
-        go-version: '1.21.0'
+        go-version: ${{ matrix.go-version }}
+      
+    - name: Display Go version
+      run: go version
 
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential git
+        sudo apt-get install -y build-essential mipsel-linux-gnu-gcc
 
-    - name: Clone Entware repository
+    - name: Prepare Entware environment
       run: |
-        git clone https://github.com/Entware/Entware.git /opt/Entware
-        cd /opt/Entware
-        sudo ./scripts/feeds update -a
-        sudo ./scripts/feeds install -a
+        git clone https://github.com/Entware/Entware.git
+        cd Entware
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
 
-    - name: Set environment variables
+    - name: Build sing-box package
       run: |
-        echo "PATH=/opt/Entware/bin:$PATH" >> $GITHUB_ENV
-        echo "GOPATH=/go" >> $GITHUB_ENV
-        echo "PATH=$GOPATH/bin:$PATH" >> $GITHUB_ENV
-
-    - name: Verify Makefile exists
-      run: |
-        if [ ! -f ${{ github.workspace }}/sing-box-go/Makefile ]; then
-          echo "Makefile not found!"
-          exit 1
-        fi
-
-    - name: Build sing-box-go
-      run: |
-        cd ${{ github.workspace }}/sing-box-go
-        make
+        cd sing-box-keenetic
+        cp -r sing-box-go/ ../Entware/package/
+        cd ../Entware
+        make menuconfig # Тут потребуется выбрать sing-box-go из меню
+        make package/sing-box-go/compile V=s
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2
       with:
-        name: sing-box-go
-        path: ${{ github.workspace }}/sing-box-go/sing-box-go
+        name: sing-box-package
+        path: bin/packages/mipsel_24kc/sing-box-go*.ipk
