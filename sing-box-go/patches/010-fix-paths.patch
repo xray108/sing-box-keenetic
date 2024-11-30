@@ -1,5 +1,5 @@
---- a/cmd/sing-box/main.go
-+++ b/cmd/sing-box/main.go
+--- a/cmd/sing-box/cmd.go
++++ b/cmd/sing-box/cmd.go
 @@ -69,6 +69,6 @@ func preRun(cmd *cobra.Command, args []s
  		}
  	}
@@ -10,7 +10,7 @@
  }
 --- a/constant/path_unix.go
 +++ b/constant/path_unix.go
-@@ -7,10 +7,8 @@ import (
+@@ -8,10 +8,8 @@ import (
  )
  
  func init() {
